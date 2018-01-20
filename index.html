@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="./css/photon.min.css">
+  <style media="screen">
+    header {
+      -webkit-app-region: drag; /* ドラッグ可能に */
+      -webkit-user-select: none; /* ドラッグはテキスト選択と競合するので禁止 */
+    }
+  </style>
+  <script src="https://www.gstatic.com/firebasejs/4.5.1/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.5.1/firebase-firestore.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/riot/3.0.0/riot+compiler.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/riot-route/3.0.1/route.min.js"></script>
+</head>
+<body>
+  <div class="window">
+    <header class="toolbar toolbar-header">
+      <h1 class="title">sequelFIRE🔥</h1>
+      <div class="toolbar-actions">
+        <div class="btn-group">
+          <button class="btn btn-default">
+            <span class="icon icon-home"></span>
+          </button>
+          <button class="btn btn-default">
+            <span class="icon icon-folder"></span>
+          </button>
+          <button class="btn btn-default active">
+            <span class="icon icon-cloud"></span>
+          </button>
+          <button class="btn btn-default">
+            <span class="icon icon-popup"></span>
+          </button>
+          <button class="btn btn-default">
+            <span class="icon icon-shuffle"></span>
+          </button>
+        </div>
+
+        <button class="btn btn-default">
+          <span class="icon icon-home icon-text"></span>
+          Filters
+        </button>
+
+        <button class="btn btn-default btn-dropdown pull-right">
+          <span class="icon icon-megaphone"></span>
+        </button>
+      </div>
+    </header>
+    <div class="window-content">
+      <div class="pane-group">
+        <div class="pane-sm sidebar">
+          <nav class="nav-group">
+            <h5 class="nav-group-title">Favorites</h5>
+            <a class="nav-group-item active">
+              <span class="icon icon-home"></span>
+              connors
+            </a>
+            <span class="nav-group-item">
+              <span class="icon icon-download"></span>
+              Downloads
+            </span>
+            <span class="nav-group-item">
+              <span class="icon icon-folder"></span>
+              Documents
+            </span>
+            <span class="nav-group-item">
+              <span class="icon icon-signal"></span>
+              AirPlay
+            </span>
+            <span class="nav-group-item">
+              <span class="icon icon-print"></span>
+              Applications
+            </span>
+            <span class="nav-group-item">
+              <span class="icon icon-cloud"></span>
+              Desktop
+            </span>
+          </nav>
+        </div>
+        <div class="pane">
+          <table class="table-striped">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Kind</th>
+                <th>File Size</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>photon.css</td>
+                <td>CSS</td>
+                <td>28K</td>
+              </tr>
+              <tr>
+                <td>photon.css</td>
+                <td>CSS</td>
+                <td>28K</td>
+              </tr>
+              <tr>
+                <td>photon.css</td>
+                <td>CSS</td>
+                <td>28K</td>
+              </tr>
+              <tr>
+                <td>photon.css</td>
+                <td>CSS</td>
+                <td>28K</td>
+              </tr>
+            </tbody>
+          </table>
+        <div>
+      </div>
+    </div>
+  </div>
+  <script>
+    /***********************************************
+    * Firebase Initialization
+    ***********************************************/
+    var config = {
+      apiKey: "AIzaSyBKhIvS5oBGeiR7q_zLdAfTcT4-B3ags18",
+      authDomain: "timeline-stg.firebaseapp.com",
+      databaseURL: "https://timeline-stg.firebaseio.com",
+      projectId: "timeline-stg"
+    };
+    firebase.initializeApp(config);
+    var db = firebase.firestore();
+
+    var tbody = document.getElementsByTagName('tbody')[0];
+    var trs = "";
+    var docRef = db.collection("timelines").orderBy('updatedAt', 'desc')
+    docRef.get().then(function(querySnapshot){
+      var items = querySnapshot.docs;
+      for(var i=0; i < items.length; i++) {
+        var item = items[i].data();
+        trs += "<tr><td>"+item.title+"</td><td>"+item.gid+"</td><td>"+item.createdAt+"</td></tr>";
+      }
+      tbody.innerHTML = trs;
+    })
+  </script>
+</body>
+</html>
