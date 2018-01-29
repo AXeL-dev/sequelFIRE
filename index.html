@@ -8,8 +8,6 @@
       -webkit-user-select: none; /* ドラッグはテキスト選択と競合するので禁止 */
     }
   </style>
-  <script src="https://www.gstatic.com/firebasejs/4.5.1/firebase.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/4.5.1/firebase-firestore.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/riot/3.0.0/riot+compiler.min.js"></script>
   <script src="https://cdn.jsdelivr.net/riot-route/3.0.1/route.min.js"></script>
 </head>
@@ -33,39 +31,11 @@
   <script src="./tags/table-list.tag" type="riot/tag"></script>
   <script>
     /***********************************************
-    * Firebase Initialization
-    ***********************************************/
-    var config = {
-      apiKey: "AIzaSyBKhIvS5oBGeiR7q_zLdAfTcT4-B3ags18",
-      authDomain: "timeline-stg.firebaseapp.com",
-      databaseURL: "https://timeline-stg.firebaseio.com",
-      projectId: "timeline-stg"
-    };
-    firebase.initializeApp(config);
-    var db = firebase.firestore();
-
-
-    /***********************************************
     * Riot
     ***********************************************/
     riot.mount('header')
     riot.mount('sidebar')
     riot.mount('table-list')
-
-
-/*
-    var tbody = document.getElementsByTagName('tbody')[0];
-    var trs = "";
-    var docRef = db.collection("timelines").orderBy('updatedAt', 'desc')
-    docRef.get().then(function(querySnapshot){
-      var items = querySnapshot.docs;
-      for(var i=0; i < items.length; i++) {
-        var item = items[i].data();
-        trs += "<tr><td>"+item.title+"</td><td>"+item.gid+"</td><td>"+item.createdAt+"</td></tr>";
-      }
-      tbody.innerHTML = trs;
-    })
-*/
   </script>
 </body>
 </html>

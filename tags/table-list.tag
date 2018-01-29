@@ -33,12 +33,24 @@
     that.labels = null
     that.items = null
 
-    var docRef = db.collection("timelines").limit(3)
-    docRef.get().then(function(querySnapshot){
-      that.items = querySnapshot.docs
-      that.labels = Object.keys(that.items[0].data())
-      that.update()
-    })
+
+
+
+    // var docRef = db.collection("timelines").limit(3)
+    // docRef.get().then(function(querySnapshot){
+    //   that.items = querySnapshot.docs
+    //   that.labels = Object.keys(that.items[0].data())
+    //   that.update()
+    // })
+
+    let projectName = 'tournament-7e3b7'
+    let apiKey = "AIzaSyCv8ZjenJii6cjYyKojQfxygCH1pWIj9DQ"
+    let path = 'tournaments/lJO8z1lh3BwPwXEsVREM'
+    fetch('https://firestore.googleapis.com/v1beta1/projects/'+ projectName +'/databases/(default)/documents/'+ path +'?key='+key).then(function(response){
+      return response.json();
+    }).then(function(json){
+      console.log(json);
+    });
 
     updateQuery(e) {
       var queryText = e.currentTarget.value
