@@ -9,7 +9,6 @@
     }
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/riot/3.0.0/riot+compiler.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/riot-route/3.0.1/route.min.js"></script>
 </head>
 <body>
   <div class="window">
@@ -20,7 +19,7 @@
           <sidebar></sidebar>
         </div>
         <div class="pane">
-          <table-list></table-list>
+          <collection-list></collection-list>
         <div>
       </div>
     </div>
@@ -28,14 +27,17 @@
 
   <script src="./tags/header.tag" type="riot/tag"></script>
   <script src="./tags/sidebar.tag" type="riot/tag"></script>
-  <script src="./tags/table-list.tag" type="riot/tag"></script>
+  <script src="./tags/collection-list.tag" type="riot/tag"></script>
+  <script src="./tags/document-detail.tag" type="riot/tag"></script>
   <script>
     /***********************************************
     * Riot
     ***********************************************/
+    var obs = riot.observable()
     riot.mount('header')
     riot.mount('sidebar')
-    riot.mount('table-list')
+    riot.mount('collection-list')
+    riot.mount('document-detail')
   </script>
 </body>
 </html>
