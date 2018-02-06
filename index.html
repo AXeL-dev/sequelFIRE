@@ -38,6 +38,12 @@
     riot.mount('sidebar')
     riot.mount('collection-list')
     riot.mount('document-detail')
+
+    const Firestore = require('@google-cloud/firestore');
+    const firestore = new Firestore({
+      projectId: 'timeline-stg',
+      keyFilename: './cert.json',
+    });
   </script>
 </body>
 </html>

@@ -13,8 +13,8 @@
       </thead>
       <tbody if={ items }>
         <tr each={ item, key in items } ondblclick={ showDetail.bind(this, item) }>
-          <td>{ item.name.split('/').pop() }</td>
-          <td each={ field in fields }>{ showValue(item.fields[field]) }</td>
+          <td>{ item.id }</td>
+          <td each={ field in fields }>{ item.data()[field] }</td>
         </tr>
       </tbody>
     </table>
@@ -29,9 +29,9 @@
       margin: 10px 1%;
     }
 
-    .table-striped tr:hover {
-        color: #fff;
-        background-color: #116cd6 !important;
+    .table-striped tbody tr:hover {
+      color: #fff;
+      background-color: #116cd6 !important;
     }
 
     td {
@@ -54,21 +54,15 @@
     that.items = null
     that.selectedDocument = null
 
-    let projectName = 'tournament-7e3b7'
-    let apiKey = "AIzaSyCv8ZjenJii6cjYyKojQfxygCH1pWIj9DQ"
-    let path = 'tournaments'
-
 
     /***********************************************
     * Observables
     ***********************************************/
     that.on('mount', function(){
-      let url = 'https://firestore.googleapis.com/v1beta1/projects/'+ projectName +'/databases/(default)/documents/'+ path +'?key=' + apiKey
-      fetch(url).then(function(response){
-        return response.json();
-      }).then(function(json){
-        that.fields = Object.keys(json.documents[0].fields)
-        that.items = json.documents
+      let collectionRef = firestore.collection('timelines').limit(3)
+      collectionRef.get().then(querySnapshot => {
+        that.items = querySnapshot.docs
+        that.fields = Object.keys(querySnapshot.docs[0].data())
         that.update()
       })
     })

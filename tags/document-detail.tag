@@ -10,7 +10,7 @@
         </button>
 
         <div class="pull-right">
-          <button class="btn btn-primary">
+          <button class="btn btn-primary" onclick={ save }>
             Save
           </button>
           <button class="btn btn-default">
@@ -24,7 +24,7 @@
       <div class="form-group" each={ field in Object.keys(opts.document.fields)  }>
         <label>
           { field }
-          <span class="btn btn-mini btn-default">{ fieldType(field) }</span>
+          <small>({ fieldType(field) })</small>
         </label>
         <input if={ !fieldType(field).match(/map|array/) } type="text" class="form-control" value={ showValue(field) }>
         <textarea if={ fieldType(field).match(/map|array/) } class="form-control">{ JSON.stringify(showValue(field)) }</textarea>
@@ -44,10 +44,6 @@
       padding: 0 3%;
       margin-top: 80px;
     }
-    .btn-mini {
-      font-size: 10px;
-      padding: 0 3px;
-    }
   </style>
 
 
@@ -61,6 +57,27 @@
 
     fieldType(field) {
       return Object.keys(opts.document.fields[field])[0].replace(/Value/, '')
+    }
+
+    save() {
+      let apiKey = "AIzaSyCv8ZjenJii6cjYyKojQfxygCH1pWIj9DQ"
+      let url = 'https://firestore.googleapis.com/v1beta1/projects/tournament-7e3b7/databases/(default)/documents/tournaments/BPrd0K0aGjZSEu3T7dPK?fields=fields&key=' + apiKey
+      // let url = 'https://firestore.googleapis.com/v1beta1/projects/'+ projectName +'/databases/(default)/documents/'+ path +'?key=' + apiKey
+      fetch(url, {
+        method: 'PATCH',
+        headers: { 'Content-Type':'application/x-www-form-urlencoded' },
+        body: {
+         "fields": {
+            "title": {
+             "stringValue": "APIで変えた名前2"
+            }
+          }
+        }
+      }).then(function(response){
+        return response.json();
+      }).then(function(json){
+        console.log(json)
+      })
     }
 
     showValue(field) {
