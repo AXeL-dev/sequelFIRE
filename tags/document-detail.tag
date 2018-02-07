@@ -1,7 +1,7 @@
 <document-detail>
-  <div if={ opts.document }>
+  <div if={ item }>
     <div class="toolbar toolbar-header">
-      <h3 class="title">{ opts.document.name }</h3>
+      <h3 class="title">{ item.name }</h3>
 
       <div class="toolbar-actions">
         <button class="btn btn-default" onclick={ close  }>
@@ -21,13 +21,13 @@
     </div>
 
     <form>
-      <div class="form-group" each={ field in Object.keys(opts.document.fields)  }>
+      <div class="form-group" each={ field in Object.keys(fields)  }>
         <label>
           { field }
           <small>({ fieldType(field) })</small>
         </label>
-        <input if={ !fieldType(field).match(/map|array/) } type="text" class="form-control" value={ showValue(field) }>
-        <textarea if={ fieldType(field).match(/map|array/) } class="form-control">{ JSON.stringify(showValue(field)) }</textarea>
+        <input if={ fieldType(field) } data-field={ field } type="text" class="form-control" value={ item[field] } onchange={ updateItem }>
+        <textarea if={ !fieldType(field) } class="form-control">{ JSON.stringify(item[field]) }</textarea>
       </div>
     </form>
   </div>
@@ -49,6 +49,8 @@
 
   <script>
     var that = this
+    that.item = opts.document.data()
+    that.fields = opts.document._fieldsProto
 
     close() {
       that.parent.selectedDocument = null
@@ -56,33 +58,25 @@
     }
 
     fieldType(field) {
-      return Object.keys(opts.document.fields[field])[0].replace(/Value/, '')
+      return that.fields[field].valueType.replace(/Value/, '')
     }
 
     save() {
-      let apiKey = "AIzaSyCv8ZjenJii6cjYyKojQfxygCH1pWIj9DQ"
-      let url = 'https://firestore.googleapis.com/v1beta1/projects/tournament-7e3b7/databases/(default)/documents/tournaments/BPrd0K0aGjZSEu3T7dPK?fields=fields&key=' + apiKey
-      // let url = 'https://firestore.googleapis.com/v1beta1/projects/'+ projectName +'/databases/(default)/documents/'+ path +'?key=' + apiKey
-      fetch(url, {
-        method: 'PATCH',
-        headers: { 'Content-Type':'application/x-www-form-urlencoded' },
-        body: {
-         "fields": {
-            "title": {
-             "stringValue": "APIで変えた名前2"
-            }
-          }
-        }
-      }).then(function(response){
-        return response.json();
-      }).then(function(json){
-        console.log(json)
+      let id = opts.document.id
+      let docRef = firestore.collection('timelines').doc(id)
+      docRef.set(that.item)
+      .then(function() {
+        alert("success!")
+      })
+      .catch(function(error) {
+        alert(error)
       })
     }
 
-    showValue(field) {
-      let fieldType = that.fieldType(field) + 'Value'
-      return opts.document.fields[field][fieldType]
+    updateItem(e) {
+      let value = e.currentTarget.value
+      let field = e.currentTarget.getAttribute('data-field')
+      that.item[field] = value
     }
   </script>
 </document-detail>

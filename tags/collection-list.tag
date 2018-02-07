@@ -62,7 +62,7 @@
       let collectionRef = firestore.collection('timelines').limit(3)
       collectionRef.get().then(querySnapshot => {
         that.items = querySnapshot.docs
-        that.fields = Object.keys(querySnapshot.docs[0].data())
+        that.fields = Object.keys(querySnapshot.docs[0]._fieldsProto)
         that.update()
       })
     })
