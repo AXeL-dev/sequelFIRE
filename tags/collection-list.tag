@@ -2,11 +2,11 @@
   <div if={ !selectedDocument }>
     <div class="form-group">
       Filter:
-      <select class="form-control" onchange={ updateFilterField } disabled={ !selectedCollection }>
+      <select class="form-control" data-filter-target="field" onchange={ updateFilter } disabled={ !selectedCollection }>
         <option>--Field--</option>
         <option each={ field in fields } value={ field }>{ field }</option>
       </select>
-      <select class="form-control" onchange={ updateFilterOperator } disabled={ !selectedCollection }>
+      <select class="form-control" data-filter-target="operator" onchange={ updateFilter } disabled={ !selectedCollection }>
         <option>--Operator--</option>
         <option value="=="> == </option>
         <option value="<"> < </option>
@@ -14,7 +14,7 @@
         <option value=">"> > </option>
         <option value=">="> >= </option>
       </select>
-      <input type="text" class="form-control" disabled={ !selectedCollection } onchange={ updateFilterValue } placeholder="value">
+      <input type="text" class="form-control" disabled={ !selectedCollection } data-filter-target="value" onchange={ updateFilter } placeholder="value">
       <div class="btn btn-default { disabled: !selectedCollection }" onclick={ filter }>Filter</div>
     </div>
 
@@ -136,10 +136,11 @@
     that.items = null
     that.selectedCollection = null
     that.selectedDocument = null
-
-    that.filterField = ""
-    that.filterOperator = ""
-    that.filterValue = ""
+    that.filter = {
+      field: null,
+      operator: null,
+      value: null
+    }
 
 
     /***********************************************
@@ -159,20 +160,8 @@
     /***********************************************
     * Functions
     ***********************************************/
-    updateFilterField(e) {
-      that.filterField = e.currentTarget.value
-    }
-    updateFilterOperator(e) {
-      that.filterOperator = e.currentTarget.value
-    }
-    updateFilterValue(e) {
-      that.filterValue = e.currentTarget.value
-    }
     filter() {
-      if(that.filterField=='' || that.filterOperator=='' || that.filterValue=='') {
-        return false
-      }
-      let collectionRef = firestore.collection(that.selectedCollection).where(that.filterField, that.filterOperator, that.filterValue).limit(5)
+      let collectionRef = firestore.collection(that.selectedCollection).where(that.filter.field, that.filter.operator, that.filter.value).limit(5)
       collectionRef.get().then(querySnapshot => {
         that.items = querySnapshot.docs
         that.fields = Object.keys(querySnapshot.docs[0]._fieldsProto)
@@ -201,6 +190,11 @@
     showValue(data) {
       if(!data || data == undefined || data == null) { return data }
       return JSON.stringify(Object.values(data)[0]).replace(/"/g, '')
+    }
+
+    updateFilter(e) {
+      let target = e.currentTarget.getAttribute('data-filter-target')
+      that.filter[target] = e.currentTarget.value
     }
 
     updateQuery(e) {
