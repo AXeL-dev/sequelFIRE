@@ -6,9 +6,16 @@
     </div>
     <hr>
 
-    <a class="nav-group-item { active: selectedCollection == collection }" each={ collection in collections } onclick={ selectCollection.bind(this, collection) }>
+    <a class="nav-group-item { active: selectedCollection == collection }" each={ collection in collections } data-collection={ collection } onclick={ selectCollection }>
       <i class="icon icon-folder"></i>
       { collection }
+      <i class="icon icon-cancel float-right" data-collection={ collection } onclick={ removeCollection }></i>
+    </a>
+    <!-- FIXME  -->
+    <a class="nav-group-item { active: selectedCollection == collection }" data-collection="timelines" onclick={ selectCollection }>
+      <i class="icon icon-folder"></i>
+      timelines
+      <i class="icon icon-cancel float-right" data-collection="timelines" onclick={ removeCollection }></i>
     </a>
   </nav>
   <!--
@@ -21,6 +28,11 @@
 
 
   <style>
+    i.float-right {
+      float: right !important;
+      cursor: pointer;
+    }
+
     .form-control {
       width: 90%;
       margin-left: 5%;
@@ -56,8 +68,18 @@
       that.update()
     }
 
-    selectCollection(collectionName) {
-      if(collectionName == that.selectedCollection) {
+    removeCollection(e) {
+      e.preventDefault()
+      that.collections = that.collections.filter(function(v){
+        return v != e.currentTarget.getAttribute('data-collection')
+      })
+      that.update()
+    }
+
+    selectCollection(e) {
+      // ignore when clicking remove icon or select already selected collection
+      let collectionName = e.currentTarget.getAttribute('data-collection')
+      if(e.target.classList.contains('icon-cancel') || collectionName == that.selectedCollection) {
         return false
       }
       that.selectedCollection = collectionName

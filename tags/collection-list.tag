@@ -3,19 +3,22 @@
     <div class="form-group">
       Filter:
       <select class="form-control" data-filter-target="field" onchange={ updateFilter } disabled={ !selectedCollection }>
-        <option>--Field--</option>
-        <option each={ field in fields } value={ field }>{ field }</option>
+        <option> - Field - </option>
+        <option each={ field in fields } value={ field } selected={ filter.field == field }>{ field }</option>
       </select>
       <select class="form-control" data-filter-target="operator" onchange={ updateFilter } disabled={ !selectedCollection }>
-        <option>--Operator--</option>
-        <option value="=="> == </option>
-        <option value="<"> < </option>
-        <option value="<="> <= </option>
-        <option value=">"> > </option>
-        <option value=">="> >= </option>
+        <option> - Operator - </option>
+        <option value="==" selected={ filter.operator == '==' }> == </option>
+        <option value="<" selected={ filter.operator == '<' }> < </option>
+        <option value="<=" selected={ filter.operator == '<=' }> <= </option>
+        <option value=">" selected={ filter.operator == '>' }> > </option>
+        <option value=">=" selected={ filter.operator == '>=' }> >= </option>
       </select>
-      <input type="text" class="form-control" disabled={ !selectedCollection } data-filter-target="value" onchange={ updateFilter } placeholder="value">
-      <div class="btn btn-default { disabled: !selectedCollection }" onclick={ filter }>Filter</div>
+      <input ref="filterValue" type="text" class="form-control" disabled={ !selectedCollection } data-filter-target="value" onchange={ updateFilter } value={ filter.value } placeholder="value">
+      <div class="btn btn-default { disabled: !selectedCollection }" onclick={ executeQuery }>Filter</div>
+      <div class="btn btn-basic" onclick={ removeFilter } if={ selectedCollection }>
+        <i class="icon icon-cancel-circled"></i>
+      </div>
     </div>
 
     <table class="table-striped">
@@ -44,7 +47,7 @@
           <div class="btn btn-basic" onclick={ notDeployed }>
             <i class="icon icon-plus"></i>
           </div>
-          <div class="btn btn-basic" onclick={ refresh }>
+          <div class="btn btn-basic" onclick={ executeQuery }>
             <i class="icon icon-cw"></i>
           </div>
         </div>
@@ -148,23 +151,24 @@
     ***********************************************/
     obs.on("collectionChanged", function(collectionName) {
       that.selectedCollection = collectionName
-      let collectionRef = firestore.collection(that.selectedCollection).limit(5)
-      collectionRef.get().then(querySnapshot => {
-        that.items = querySnapshot.docs
-        that.fields = Object.keys(querySnapshot.docs[0]._fieldsProto)
-        that.update()
-      })
+      that.executeQuery()
     })
 
 
     /***********************************************
     * Functions
     ***********************************************/
-    filter() {
-      let collectionRef = firestore.collection(that.selectedCollection).where(that.filter.field, that.filter.operator, that.filter.value).limit(5)
+    executeQuery() {
+      let collectionRef = firestore.collection(that.selectedCollection)
+
+      if(that.filter.field && that.filter.operator && that.filter.value) {
+        collectionRef = collectionRef.where(that.filter.field, that.filter.operator, that.filter.value)
+      }
+
+      collectionRef = collectionRef.limit(10)
       collectionRef.get().then(querySnapshot => {
         that.items = querySnapshot.docs
-        that.fields = Object.keys(querySnapshot.docs[0]._fieldsProto)
+        that.fields = Object.keys(querySnapshot.docs[0]._fieldsProto).sort()
         that.update()
       })
     }
@@ -173,13 +177,14 @@
       alert("This feature is not deployed yet! Sorry!")
     }
 
-    refresh() {
-      let collectionRef = firestore.collection(that.selectedCollection).limit(5)
-      collectionRef.get().then(querySnapshot => {
-        that.items = querySnapshot.docs
-        that.fields = Object.keys(querySnapshot.docs[0]._fieldsProto)
-        that.update()
-      })
+    removeFilter() {
+      that.filter = {
+        field: null,
+        operator: null,
+        value: null
+      }
+      that.refs.filterValue.value = ''
+      that.executeQuery()
     }
 
     showDetail(item) {
