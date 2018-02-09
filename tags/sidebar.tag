@@ -57,6 +57,9 @@
     }
 
     selectCollection(collectionName) {
+      if(collectionName == that.selectedCollection) {
+        return false
+      }
       that.selectedCollection = collectionName
       obs.trigger('collectionChanged', collectionName)
     }

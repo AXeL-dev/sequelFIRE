@@ -1,7 +1,21 @@
 <collection-list>
   <div if={ !selectedDocument }>
     <div class="form-group">
-      <input type="text" class="form-control" disabled={ !selectedCollection } placeholder='WHERE query' onchange={ updateQuery }>
+      Filter:
+      <select class="form-control" onchange={ updateFilterField } disabled={ !selectedCollection }>
+        <option>--Field--</option>
+        <option each={ field in fields } value={ field }>{ field }</option>
+      </select>
+      <select class="form-control" onchange={ updateFilterOperator } disabled={ !selectedCollection }>
+        <option>--Operator--</option>
+        <option value="=="> == </option>
+        <option value="<"> < </option>
+        <option value="<="> <= </option>
+        <option value=">"> > </option>
+        <option value=">="> >= </option>
+      </select>
+      <input type="text" class="form-control" disabled={ !selectedCollection } onchange={ updateFilterValue } placeholder="value">
+      <div class="btn btn-default { disabled: !selectedCollection }" onclick={ filter }>Filter</div>
     </div>
 
     <table class="table-striped">
@@ -23,57 +37,78 @@
         </tr>
       </tbody>
     </table>
+
+    <footer class="toolbar toolbar-footer">
+      <div class="toolbar-actions">
+        <div class="btn-group">
+          <div class="btn btn-basic" onclick={ notDeployed }>
+            <i class="icon icon-plus"></i>
+          </div>
+          <div class="btn btn-basic" onclick={ refresh }>
+            <i class="icon icon-cw"></i>
+          </div>
+        </div>
+
+        <small>Rows 1-100</small>
+
+        <div class="btn-group right">
+          <div class="btn btn-basic">
+            <i class="icon icon-left-open"></i>
+          </div>
+          <!--
+          <div class="btn btn-basic">
+            <i class="icon icon-cog"></i>
+          </div>
+          -->
+          <div class="btn btn-basic">
+            <i class="icon icon-right-open"></i>
+          </div>
+        </div>
+      </div>
+    </footer>
   </div>
+
   <document-detail if={ selectedDocument } document={ selectedDocument }></document-detail>
-  <footer class="toolbar toolbar-footer">
-    <div class="toolbar-actions">
-      <div class="btn-group">
-        <div class="btn btn-basic">
-          <i class="icon icon-plus"></i>
-        </div>
-        <div class="btn btn-basic">
-          <i class="icon icon-cw"></i>
-        </div>
-      </div>
-
-      <small>Rows 1-100</small>
-
-      <div class="btn-group right">
-        <div class="btn btn-basic">
-          <i class="icon icon-left-open"></i>
-        </div>
-        <div class="btn btn-basic">
-          <i class="icon icon-cog"></i>
-        </div>
-        <div class="btn btn-basic">
-          <i class="icon icon-right-open"></i>
-        </div>
-      </div>
-    </div>
-  </footer>
 
 
   <style>
+    /* button */
+    :disabled, .disabled {
+      background: #efefef;
+      color: #999;
+    }
+    .btn:not(.disabled), .btn-basic i {
+      cursor: pointer;
+    }
     .btn-basic {
       margin: 0 !important;
       box-shadow: none;
     }
-    .form-group { margin-bottom: 0; }
-    .form-control {
-      width: 98%;
-      margin: 10px 1%;
-    }
-
     .btn-group.right {
       position: absolute;
       right: 0;
     }
 
+    /* form */
+    .form-group {
+      position: fixed;
+      width: calc(100% - 150px);
+      padding: 0 10px;
+    }
+    .form-control {
+      width: auto;
+      margin: 10px 5px;
+    }
+    input.form-control {
+      padding: 0 10px;
+    }
+
+    /* table */
+    .table-striped { padding-top: 45px; }
     .table-striped tbody tr:hover {
       color: #fff;
       background-color: #116cd6 !important;
     }
-
     td {
       width: auto;
       max-width: 350px;
@@ -83,9 +118,10 @@
       -o-text-overflow: ellipsis; /* Opera9,10対応 */
     }
 
+    /* footer */
     footer {
-      position: absolute;
-      width: 100%;
+      position: fixed;
+      width: calc(100% - 150px);
       bottom: 0;
     }
   </style>
@@ -101,13 +137,17 @@
     that.selectedCollection = null
     that.selectedDocument = null
 
+    that.filterField = ""
+    that.filterOperator = ""
+    that.filterValue = ""
+
 
     /***********************************************
     * Observables
     ***********************************************/
     obs.on("collectionChanged", function(collectionName) {
       that.selectedCollection = collectionName
-      let collectionRef = firestore.collection(collectionName).limit(5)
+      let collectionRef = firestore.collection(that.selectedCollection).limit(5)
       collectionRef.get().then(querySnapshot => {
         that.items = querySnapshot.docs
         that.fields = Object.keys(querySnapshot.docs[0]._fieldsProto)
@@ -119,6 +159,40 @@
     /***********************************************
     * Functions
     ***********************************************/
+    updateFilterField(e) {
+      that.filterField = e.currentTarget.value
+    }
+    updateFilterOperator(e) {
+      that.filterOperator = e.currentTarget.value
+    }
+    updateFilterValue(e) {
+      that.filterValue = e.currentTarget.value
+    }
+    filter() {
+      if(that.filterField=='' || that.filterOperator=='' || that.filterValue=='') {
+        return false
+      }
+      let collectionRef = firestore.collection(that.selectedCollection).where(that.filterField, that.filterOperator, that.filterValue).limit(5)
+      collectionRef.get().then(querySnapshot => {
+        that.items = querySnapshot.docs
+        that.fields = Object.keys(querySnapshot.docs[0]._fieldsProto)
+        that.update()
+      })
+    }
+
+    notDeployed() {
+      alert("This feature is not deployed yet! Sorry!")
+    }
+
+    refresh() {
+      let collectionRef = firestore.collection(that.selectedCollection).limit(5)
+      collectionRef.get().then(querySnapshot => {
+        that.items = querySnapshot.docs
+        that.fields = Object.keys(querySnapshot.docs[0]._fieldsProto)
+        that.update()
+      })
+    }
+
     showDetail(item) {
       that.selectedDocument = item
       that.update()
