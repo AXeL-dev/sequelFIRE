@@ -1,21 +1,10 @@
 <sidebar>
   <nav class="nav-group">
     <h5 class="nav-group-title">Collections</h5>
-    <div class="form-group">
-      <input class="form-control" placeholder="add collection" onchange={ addCollection }>
-    </div>
-    <hr>
 
-    <a class="nav-group-item { active: selectedCollection == collection }" each={ collection in collections } data-collection={ collection } onclick={ selectCollection }>
+    <a class="nav-group-item { active: selectedCollection == collection.id }" each={ collection in collections } onclick={ selectCollection.bind(this, collection.id) }>
       <i class="icon icon-folder"></i>
-      { collection }
-      <i class="icon icon-cancel float-right" data-collection={ collection } onclick={ removeCollection }></i>
-    </a>
-    <!-- FIXME  -->
-    <a class="nav-group-item { active: selectedCollection == collection }" data-collection="timelines" onclick={ selectCollection }>
-      <i class="icon icon-folder"></i>
-      timelines
-      <i class="icon icon-cancel float-right" data-collection="timelines" onclick={ removeCollection }></i>
+      { collection.id }
     </a>
   </nav>
   <!--
@@ -31,11 +20,6 @@
     i.float-right {
       float: right !important;
       cursor: pointer;
-    }
-
-    .form-control {
-      width: 90%;
-      margin-left: 5%;
     }
 
     .nav-group-item.active, .nav-group-item:hover {
@@ -60,28 +44,22 @@
 
 
     /***********************************************
+    * Observables
+    ***********************************************/
+    that.on('mount', function(){
+      firestore.getCollections().then(function(collections) {
+        that.collections = collections
+        that.update()
+      })
+    })
+
+
+    /***********************************************
     * Functions
     ***********************************************/
-    addCollection(e) {
-      that.collections.push(e.currentTarget.value)
-      e.currentTarget.value = null
-      that.update()
-    }
+    selectCollection(collectionName) {
+      if(that.selectedCollection == collectionName) { return false }
 
-    removeCollection(e) {
-      e.preventDefault()
-      that.collections = that.collections.filter(function(v){
-        return v != e.currentTarget.getAttribute('data-collection')
-      })
-      that.update()
-    }
-
-    selectCollection(e) {
-      // ignore when clicking remove icon or select already selected collection
-      let collectionName = e.currentTarget.getAttribute('data-collection')
-      if(e.target.classList.contains('icon-cancel') || collectionName == that.selectedCollection) {
-        return false
-      }
       that.selectedCollection = collectionName
       obs.trigger('collectionChanged', collectionName)
     }
