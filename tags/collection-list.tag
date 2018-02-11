@@ -1,24 +1,26 @@
 <collection-list>
   <div if={ !selectedDocument }>
     <div class="form-group">
-      Filter:
-      <select class="form-control" data-filter-target="field" onchange={ updateFilter } disabled={ !selectedCollection }>
-        <option> - Field - </option>
-        <option each={ field in fields } value={ field } selected={ filter.field == field }>{ field }</option>
-      </select>
-      <select class="form-control" data-filter-target="operator" onchange={ updateFilter } disabled={ !selectedCollection }>
-        <option> - Operator - </option>
-        <option value="==" selected={ filter.operator == '==' }> == </option>
-        <option value="<" selected={ filter.operator == '<' }> < </option>
-        <option value="<=" selected={ filter.operator == '<=' }> <= </option>
-        <option value=">" selected={ filter.operator == '>' }> > </option>
-        <option value=">=" selected={ filter.operator == '>=' }> >= </option>
-      </select>
-      <input ref="filterValue" type="text" class="form-control" disabled={ !selectedCollection } data-filter-target="value" onchange={ updateFilter } value={ filter.value } placeholder="value">
-      <div class="btn btn-default { disabled: !selectedCollection }" onclick={ executeQuery }>Filter</div>
-      <div class="btn btn-basic" onclick={ removeFilter } if={ selectedCollection }>
-        <i class="icon icon-cancel-circled"></i>
-      </div>
+      <form onsubmit={ executeQuery }>
+        Filter:
+        <select class="form-control" data-filter-target="field" onchange={ updateFilter } disabled={ !selectedCollection }>
+          <option> - Field - </option>
+          <option each={ field in fields } value={ field } selected={ filter.field == field }>{ field }</option>
+        </select>
+        <select class="form-control" data-filter-target="operator" onchange={ updateFilter } disabled={ !selectedCollection }>
+          <option> - Operator - </option>
+          <option value="==" selected={ filter.operator == '==' }> == </option>
+          <option value="<" selected={ filter.operator == '<' }> < </option>
+          <option value="<=" selected={ filter.operator == '<=' }> <= </option>
+          <option value=">" selected={ filter.operator == '>' }> > </option>
+          <option value=">=" selected={ filter.operator == '>=' }> >= </option>
+        </select>
+        <input ref="filterValue" type="text" class="form-control" disabled={ !selectedCollection } data-filter-target="value" onchange={ updateFilter } value={ filter.value } placeholder="value">
+        <button type="submit" class="btn btn-default { disabled: !selectedCollection }">Filter</button>
+        <div class="btn btn-basic" onclick={ removeFilter } if={ selectedCollection }>
+          <i class="icon icon-cancel-circled"></i>
+        </div>
+      </form>
     </div>
 
     <table class="table-striped">
@@ -158,7 +160,9 @@
     /***********************************************
     * Functions
     ***********************************************/
-    executeQuery() {
+    executeQuery(e) {
+      if(e) { e.preventDefault() }  // prevent form submission
+
       let collectionRef = firestore.collection(that.selectedCollection)
 
       if(that.filter.field && that.filter.operator && that.filter.value) {
