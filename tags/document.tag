@@ -1,4 +1,4 @@
-<document-detail>
+<document>
   <div if={ item }>
     <div class="toolbar toolbar-header">
       <h3 class="title">{ item.name }</h3>
@@ -79,4 +79,4 @@
       that.item[field] = value
     }
   </script>
-</document-detail>
+</document>

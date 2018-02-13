@@ -22,16 +22,20 @@
           <sidebar></sidebar>
         </div>
         <div class="pane">
+          <main></main>
           <collection-list></collection-list>
         <div>
       </div>
     </div>
   </div>
 
+  <script src="./tags/collection.tag" type="riot/tag"></script>
+  <script src="./tags/document.tag" type="riot/tag"></script>
+  <script src="./tags/filter.tag" type="riot/tag"></script>
+  <script src="./tags/footer.tag" type="riot/tag"></script>
   <script src="./tags/header.tag" type="riot/tag"></script>
+  <script src="./tags/main.tag" type="riot/tag"></script>
   <script src="./tags/sidebar.tag" type="riot/tag"></script>
-  <script src="./tags/collection-list.tag" type="riot/tag"></script>
-  <script src="./tags/document-detail.tag" type="riot/tag"></script>
   <script>
     /***********************************************
     * Riot
@@ -39,8 +43,7 @@
     var obs = riot.observable()
     riot.mount('header')
     riot.mount('sidebar')
-    riot.mount('collection-list')
-    riot.mount('document-detail')
+    riot.mount('main')
 
     const Firestore = require('@google-cloud/firestore');
     const firestore = new Firestore({
