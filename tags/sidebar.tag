@@ -2,18 +2,14 @@
   <nav class="nav-group">
     <h5 class="nav-group-title">Collections</h5>
 
+    <div class="nav-group-item" if={ collections.length == 0 }>
+      Loading collections..
+    </div>
     <a class="nav-group-item { active: selectedCollection == collection.id }" each={ collection in collections } onclick={ selectCollection.bind(this, collection.id) }>
       <i class="icon icon-folder"></i>
       { collection.id }
     </a>
   </nav>
-  <!--
-  <footer class="toolbar toolbar-footer">
-    <div class="toolbar-actions">
-      <i class="icon icon-plus"></i>
-    </div>
-  </footer>
-  -->
 
 
   <style>
@@ -24,12 +20,6 @@
 
     .nav-group-item.active, .nav-group-item:hover {
         background-color: #dcdfe1;
-    }
-
-    footer {
-      position: absolute;
-      width: 100%;
-      bottom: 0;
     }
   </style>
 
