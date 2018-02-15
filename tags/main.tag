@@ -1,10 +1,9 @@
 <main>
   <div if={ !selectedDocument }>
     <filter></filter>
-    <collection></collection>
+    <collection fields={ fields } documents={ documents }></collection>
     <footer></footer>
   </div>
-
   <document if={ selectedDocument } document={ selectedDocument }></document>
 
 
@@ -14,7 +13,8 @@
     ***********************************************/
     var that = this
     that.fields = null
-    that.items = null
+    that.documents = null
+
     that.selectedCollection = null
     that.selectedDocument = null
     that.filter = {
@@ -29,7 +29,13 @@
     ***********************************************/
     obs.on("collectionChanged", function(collectionName) {
       that.selectedCollection = collectionName
+      that.selectedDocument = null
       that.executeQuery()
+    })
+
+    obs.on("documentChanged", function(document) {
+      that.selectedDocument = document
+      that.update()
     })
 
 
@@ -47,7 +53,7 @@
 
       collectionRef = collectionRef.limit(10)
       collectionRef.get().then(querySnapshot => {
-        that.items = querySnapshot.docs
+        that.documents = querySnapshot.docs
         that.fields = Object.keys(querySnapshot.docs[0]._fieldsProto).sort()
         that.update()
       })
@@ -55,31 +61,6 @@
 
     notDeployed() {
       alert("This feature is not deployed yet! Sorry!")
-    }
-
-    removeFilter() {
-      that.filter = {
-        field: null,
-        operator: null,
-        value: null
-      }
-      that.refs.filterValue.value = ''
-      that.executeQuery()
-    }
-
-    showDetail(item) {
-      that.selectedDocument = item
-      that.update()
-    }
-
-    showValue(data) {
-      if(!data || data == undefined || data == null) { return data }
-      return JSON.stringify(Object.values(data)[0]).replace(/"/g, '')
-    }
-
-    updateFilter(e) {
-      let target = e.currentTarget.getAttribute('data-filter-target')
-      that.filter[target] = e.currentTarget.value
     }
   </script>
 </main>

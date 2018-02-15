@@ -37,7 +37,7 @@
     .toolbar-header {
       position: fixed;
       width: calc(100% - 150px);
-      top: 22px;
+      top: 55px;
     }
     .pull-right { padding-right: 5px; }
     form {
@@ -48,10 +48,17 @@
 
 
   <script>
+    /***********************************************
+    * Settings
+    ***********************************************/
     var that = this
     that.item = opts.document.data()
     that.fields = opts.document._fieldsProto
 
+
+    /***********************************************
+    * Functions
+    ***********************************************/
     close() {
       that.parent.selectedDocument = null
       that.parent.update()
