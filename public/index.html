@@ -5,14 +5,164 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>sequelFIRE | GUI admin tool for Google Cloud Firestore</title>
-  <meta id="description" name="description" content="sequelFIRE is RDBs like GUI admin tool for Google Cloud Firestore." />
-  <meta id="keywords" name="keywords" content="sequelFIRE firestore GUI tool admin GoogleCloudFirestore data management" />
+  <title>sequelFIRE | Simple GUI admin tool for Google Cloud Firestore</title>
+  <meta id="description" name="description" content="sequelFIRE is simple GUI admin tool for Google Cloud Firestore." />
+  <meta id="keywords" name="keywords" content="sequelFIRE firestore GUI admin tool Google Cloud Firestore data management" />
 
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.2.3/dist/semantic.min.css">
+  <style media="screen">
+    h1.ui.header {
+      font-size: 3rem !important;
+      margin-top: 30px !important;
+      margin-bottom: 30px !important;
+      line-height: 4.5rem;
+    }
+
+    h3 { margin: 30px !important;  }
+  </style>
 </head>
 <body>
-  <div class="container">
+  <div class="ui fixed inverted borderless menu">
+    <a href="/" class="header item">
+      <h4>sequelFIRE🔥</h4>
+    </a>
+  </div>
+
+  <div class="ui inverted center aligned basic segment stackable grid">
+    <div class="ui twelve wide column">
+      <h1 class="ui huge inverted header">
+        Manage your Firestore like RDB
+        <div class="sub header">
+          Simple GUI admin tool for Google Cloud Firestore
+        </div>
+      </h1>
+
+      <div class="ui horizontal list">
+        <div class="item">
+          <i class="icon big apple"></i>
+        </div>
+        <div class="item">
+          <i class="icon big windows"></i>
+        </div>
+        <div class="item">
+          <i class="icon big linux"></i>
+        </div>
+      </div>
+      <br><br>
+
+      <div>
+        <a class="ui right labeled icon orange large button" href="https://goo.gl/forms/xAyzbzb9eteIJv313" target="_blank">
+          <i class="chevron right icon"></i>
+          Pre-register for private BETA
+        </a>
+      </div>
+      <br><br>
+      <div class="ui image">
+        <img src="img/capture.png" alt="">
+      </div>
+      <br><br>
+    </div>
+    <br><br>
+  </div>
+  <div class="ui hidden divider"></div>
+
+  <div class="ui basic center aligned segment">
+    <h2 class="ui huge header">
+      Got annoyed with poor Firebase admin console?
+      <br>
+      Then just try this!
+    </h2>
+  </div>
+
+
+  <div class="ui stackable centered grid">
+    <div class="twelve wide column">
+      <h3 class="ui horizontal divider header">
+        <i class="options icon"></i>
+        Feature
+      </h3>
+      <div class="ui stackable three column grid">
+        <div class="center aligned column">
+          <h3 class="ui icon header">
+            <i class="icon database pink"></i>
+            List documents like RDB
+          </h3>
+          <p>
+            sequelFIRE lists all the documents in a collection like RDB.
+            You can see all attributes of each row at a glance.
+          </p>
+        </div>
+        <div class="center aligned column">
+          <h3 class="ui icon header">
+            <i class="icon write pink"></i>
+            Edit document easily
+          </h3>
+          <p>
+            Of course you can edit/delete each document in a detailed view.
+            It cares about the data type.
+          </p>
+        </div>
+        <div class="center aligned column">
+          <h3 class="ui icon header">
+            <i class="icon terminal pink"></i>
+            Query as you like
+          </h3>
+          <p>
+            You can query whatever you want like you do in your application.
+            You can just select using where, or update multiple documents at the same time.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="twelve wide column">
+      <div class="ui secondary segment">
+        <h4 class="ui small header">
+          <i class="icon info circle"></i>
+          Upcoming features after private BETA
+        </h4>
+        <ul>
+          <li>Authentication management</li>
+          <li>Managing subcollections</li>
+          <li>Multiple tab opening</li>
+          <li>..and more!</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <br><br>
+
+
+  <div class="ui stackable centered grid">
+    <div class="twelve wide column">
+      <h3 class="ui horizontal divider header">
+        <i class="dollar icon"></i>
+        Price
+      </h3>
+      <div class="ui basic center aligned segment">
+        <div class="ui large red header">
+          FREE
+        </div>
+        <div class="sub hader">during private BETA</div>
+        <br><br>
+        <div>
+          <a class="ui right labeled icon orange large button" href="https://goo.gl/forms/xAyzbzb9eteIJv313" target="_blank">
+            <i class="chevron right icon"></i>
+            Pre-register for private BETA
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br><br>
+
+
+  <div class="ui inverted attached footer center aligned very padded segment">
+    <h4 class="ui inverted small header">
+      sequelFIRE🔥
+    </h4>
+    <div class="sub header">
+      produced by NOT SO BAD
+    </div>
   </div>
 </body>
 </html>
