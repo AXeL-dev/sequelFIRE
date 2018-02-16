@@ -11,6 +11,12 @@
 
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.2.3/dist/semantic.min.css">
   <style media="screen">
+    .ui.fixed.menu { background: rgba(0,0,0,0.9); }
+    .inverted.segment.grid {
+      background: url('img/background.jpg');
+      background-size: cover;
+      margin-top: 0;
+    }
     h1.ui.header {
       font-size: 3rem !important;
       margin-top: 30px !important;
@@ -57,16 +63,18 @@
         </a>
       </div>
       <br><br>
+      <div class="ui hidden divider"></div>
       <div class="ui image">
         <img src="img/capture.png" alt="">
       </div>
-      <br><br>
+      <div class="ui hidden divider"></div>
     </div>
     <br><br>
   </div>
   <div class="ui hidden divider"></div>
 
   <div class="ui basic center aligned segment">
+    <br>
     <h2 class="ui huge header">
       Got annoyed with poor Firebase admin console?
       <br>
@@ -140,9 +148,9 @@
       </h3>
       <div class="ui basic center aligned segment">
         <div class="ui large red header">
-          $3<small> / month</small>
+          FREE
         </div>
-        <div class="sub hader">(Forever FREE during private BETA)</div>
+        <div class="sub hader">during private BETA</div>
         <br><br>
         <div>
           <a class="ui right labeled icon orange large button" href="https://goo.gl/forms/xAyzbzb9eteIJv313" target="_blank">
