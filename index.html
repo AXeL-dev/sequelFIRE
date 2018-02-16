@@ -10,6 +10,12 @@
     .pane-sm.sidebar {
       position: relative;
     }
+    :disabled, .disabled {
+      background: #efefef;
+      color: #999;
+    }
+    .btn:not(.disabled), .btn-basic i { cursor: pointer; }
+    input { cursor: text; }
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/riot/3.0.0/riot+compiler.min.js"></script>
 </head>

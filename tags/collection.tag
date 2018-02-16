@@ -9,7 +9,7 @@
     <tbody if={ opts.documents }>
       <tr each={ document, key in opts.documents } ondblclick={ showDetail.bind(this, document) }>
         <td>{ document.id }</td>
-        <td each={ field in opts.fields }>{ document.data()[field] }</td>
+        <td each={ field in parent.opts.fields }>{ document.data()[field] }</td>
       </tr>
     </tbody>
     <tbody if={ !opts.documents }>

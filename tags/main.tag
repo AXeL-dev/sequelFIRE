@@ -1,10 +1,10 @@
 <main>
   <div if={ !selectedDocument }>
-    <filter></filter>
+    <filter fields={ fields }></filter>
     <collection fields={ fields } documents={ documents }></collection>
     <footer></footer>
   </div>
-  <document if={ selectedDocument } document={ selectedDocument }></document>
+  <document if={ selectedDocument } fields={ fields } document={ selectedDocument }></document>
 
 
   <script>
@@ -30,6 +30,11 @@
     obs.on("collectionChanged", function(collectionName) {
       that.selectedCollection = collectionName
       that.selectedDocument = null
+      that.executeQuery()
+    })
+
+    obs.on("filterChanged", function(filter) {
+      that.filter = filter
       that.executeQuery()
     })
 

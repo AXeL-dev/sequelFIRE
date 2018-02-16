@@ -1,13 +1,16 @@
 <document>
-  <div if={ item }>
+  <div if={ opts.document }>
     <div class="toolbar toolbar-header">
-      <h3 class="title">{ item.name }</h3>
 
       <div class="toolbar-actions">
-        <button class="btn btn-default" onclick={ close  }>
-          <span class="icon icon-left-open"></span>
-          Back
-        </button>
+        <h3 class="title">{ opts.document.ref.path }</h3>
+
+        <div class="pull-left">
+          <button class="btn btn-default" onclick={ close  }>
+            <span class="icon icon-left-open"></span>
+            Back
+          </button>
+        </div>
 
         <div class="pull-right">
           <button class="btn btn-primary" onclick={ save }>
@@ -21,7 +24,11 @@
     </div>
 
     <form>
-      <div class="form-group" each={ field in Object.keys(fields)  }>
+      <div class="form-group">
+        <label>id</label>
+        <input type="text" class="form-control" value={ opts.document.id } disabled="disabled">
+      </div>
+      <div class="form-group" each={ field in Object.keys(fields).sort()  }>
         <label>
           { field }
           <small>({ fieldType(field) })</small>
@@ -34,15 +41,24 @@
 
 
   <style>
+    .title {
+      display: inline-block;
+      max-width: 70%;
+    }
     .toolbar-header {
       position: fixed;
       width: calc(100% - 150px);
       top: 55px;
     }
-    .pull-right { padding-right: 5px; }
+    .toolbar-actions {
+      text-align: center;
+    }
+    .pull-right {
+      padding-right: 5px;
+    }
     form {
       padding: 0 3%;
-      margin-top: 80px;
+      margin-top: 50px;
     }
   </style>
 

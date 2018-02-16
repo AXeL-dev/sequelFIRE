@@ -2,11 +2,11 @@
   <div class="form-group">
     <form onsubmit={ executeQuery }>
       Filter:
-      <select class="form-control" data-filter-target="field" onchange={ updateFilter } disabled={ !selectedCollection }>
+      <select class="form-control" data-filter-target="field" onchange={ updateFilter } disabled={ !opts.fields }>
         <option> - Field - </option>
-        <option each={ field in fields } value={ field } selected={ filter.field == field }>{ field }</option>
+        <option each={ field in opts.fields } value={ field } selected={ filter.field == field }>{ field }</option>
       </select>
-      <select class="form-control" data-filter-target="operator" onchange={ updateFilter } disabled={ !selectedCollection }>
+      <select class="form-control" data-filter-target="operator" onchange={ updateFilter } disabled={ !opts.fields }>
         <option> - Operator - </option>
         <option value="==" selected={ filter.operator == '==' }> == </option>
         <option value="<" selected={ filter.operator == '<' }> < </option>
@@ -14,9 +14,9 @@
         <option value=">" selected={ filter.operator == '>' }> > </option>
         <option value=">=" selected={ filter.operator == '>=' }> >= </option>
       </select>
-      <input ref="filterValue" type="text" class="form-control" disabled={ !selectedCollection } data-filter-target="value" onchange={ updateFilter } value={ filter.value } placeholder="value">
-      <button type="submit" class="btn btn-default { disabled: !selectedCollection }">Filter</button>
-      <div class="btn btn-basic" onclick={ removeFilter } if={ selectedCollection }>
+      <input ref="filterValue" type="text" class="form-control" disabled={ !opts.fields } data-filter-target="value" onchange={ updateFilter } value={ filter.value } placeholder="value">
+      <button type="submit" class="btn btn-default { disabled: !opts.fields }">Filter</button>
+      <div class="btn btn-basic" onclick={ removeFilter } if={ opts.fields }>
         <i class="icon icon-cancel-circled"></i>
       </div>
     </form>
@@ -24,14 +24,6 @@
 
 
   <style>
-    /* button */
-    :disabled, .disabled {
-      background: #efefef;
-      color: #999;
-    }
-    .btn:not(.disabled), .btn-basic i {
-      cursor: pointer;
-    }
     .btn-basic {
       margin: 0 !important;
       box-shadow: none;
@@ -62,8 +54,7 @@
     * Settings
     ***********************************************/
     var that = this
-    that.fields = null
-    that.selectedCollection = null
+    that.filterChanged = false
     that.filter = {
       field: null,
       operator: null,
@@ -72,17 +63,16 @@
 
 
     /***********************************************
-    * Observables
-    ***********************************************/
-    obs.on("collectionChanged", function(collectionName) {
-      that.selectedCollection = collectionName
-      that.update()
-    })
-
-
-    /***********************************************
     * Functions
     ***********************************************/
+    executeQuery(e) {
+      e.preventDefault()
+      if(that.filterChanged) {
+        obs.trigger('filterChanged', that.filter)
+      }
+      that.filterChanged = false
+    }
+
     removeFilter() {
       that.filter = {
         field: null,
@@ -95,6 +85,7 @@
     updateFilter(e) {
       let target = e.currentTarget.getAttribute('data-filter-target')
       that.filter[target] = e.currentTarget.value
+      that.filterChanged = true
     }
   </script>
 </filter>
