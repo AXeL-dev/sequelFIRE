@@ -2,7 +2,7 @@
   <div if={ !selectedDocument }>
     <filter fields={ fields }></filter>
     <collection fields={ fields } documents={ documents }></collection>
-    <footer page={ page } perPage={ perPage } nextable={ nextable } prevable={ prevable }></footer>
+    <footer page={ lastItems.length } perPage={ perPage } nextable={ nextable } prevable={ prevable }></footer>
   </div>
   <document if={ selectedDocument } fields={ fields } collection={ selectedCollection } document={ selectedDocument }></document>
 
@@ -17,7 +17,6 @@
 
     that.selectedCollection = null
     that.lastItems = []
-    that.page = 0
     that.perPage = 30
     that.nextable = true
     that.prevable = false
@@ -54,7 +53,6 @@
     * Functions
     ***********************************************/
     executeQuery(e) {
-      that.page += 1
       if(e) { e.preventDefault() }  // prevent form submission
 
       let collectionRef = firestore.collection(that.selectedCollection)
@@ -71,7 +69,6 @@
       collectionRef.get().then(querySnapshot => {
         if(querySnapshot.docs.length == 0) {
           that.nextable = false
-          that.page -= 1
           that.update()
           return false
         }
@@ -81,6 +78,9 @@
         that.documents = querySnapshot.docs
         that.fields = Object.keys(querySnapshot.docs[0]._fieldsProto).sort()
         that.lastItems.push(querySnapshot.docs[querySnapshot.docs.length-1])
+        if(that.lastItems.length < 2) {
+          that.prevable = false
+        }
         that.update()
       })
     }
@@ -95,7 +95,6 @@
         return false
       }
 
-      that.page -= 2
       that.lastItems.pop()
       that.lastItems.pop()
       that.executeQuery()
@@ -103,6 +102,11 @@
 
     notDeployed() {
       alert("This feature is not deployed yet! Sorry!")
+    }
+
+    refresh() {
+      that.lastItems.pop()
+      that.executeQuery()
     }
   </script>
 </main>

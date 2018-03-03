@@ -7,7 +7,7 @@
           <i class="icon icon-plus"></i>
         </div>
         -->
-        <div class="btn btn-basic" onclick={ executeQuery }>
+        <div class="btn btn-basic" onclick={ parent.refresh }>
           <i class="icon icon-cw"></i>
         </div>
       </div>

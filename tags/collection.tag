@@ -14,7 +14,7 @@
     </tbody>
     <tbody if={ !opts.documents }>
       <tr>
-        <td>No data found. Add and select collection from left pane.</td>
+        <td>No data found. Select collection from left pane.</td>
       </tr>
     </tbody>
   </table>
@@ -23,7 +23,7 @@
   <style>
     /* table */
     .table-striped {
-      padding-top: 45px; 
+      padding-top: 45px;
       margin-bottom: 35px;
     }
     .table-striped tbody tr:hover {
