@@ -33,8 +33,13 @@
           { field }
           <small>({ fieldType(field) })</small>
         </label>
-        <input if={ fieldType(field) } data-field={ field } type="text" class="form-control" value={ item[field] } onchange={ updateItem }>
-        <textarea if={ !fieldType(field) } class="form-control">{ JSON.stringify(item[field]) }</textarea>
+
+        <virtual if={ fieldType(field)=='array' || fieldType(field)=='object' }>
+          <textarea data-field={ field } class="form-control" onchange={ updateItem }>{ JSON.stringify(item[field], null, 2) }</textarea>
+        </virtual>
+        <virtual if={ fieldType(field)!='array' && fieldType(field)!='object' }>
+          <input data-field={ field } type="text" class="form-control" value={ item[field] } onchange={ updateItem }>
+        </virtual>
       </div>
     </form>
   </div>
@@ -99,7 +104,7 @@
     save() {
       let id = opts.document.id
       let docRef = firestore.collection(opts.collection).doc(id)
-      docRef.set(that.item)
+      docRef.update(that.item)
       .then(function() {
         alert("success!")
       })
@@ -111,6 +116,9 @@
     updateItem(e) {
       let value = e.currentTarget.value
       let field = e.currentTarget.getAttribute('data-field')
+      if(that.fieldType(field)=='array') {
+        value = JSON.parse(value)
+      }
       that.item[field] = value
     }
   </script>

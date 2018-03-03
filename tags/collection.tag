@@ -22,7 +22,10 @@
 
   <style>
     /* table */
-    .table-striped { padding-top: 45px; }
+    .table-striped {
+      padding-top: 45px; 
+      margin-bottom: 35px;
+    }
     .table-striped tbody tr:hover {
       color: #fff;
       background-color: #116cd6 !important;

@@ -24,6 +24,10 @@
 
 
   <style>
+    .form-group {
+      border-bottom: 1px solid #ddd;
+      background: #fff;
+    }
     .btn-basic {
       margin: 0 !important;
       box-shadow: none;
