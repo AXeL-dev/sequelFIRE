@@ -16,7 +16,7 @@
           <button class="btn btn-primary" onclick={ save }>
             Save
           </button>
-          <button class="btn btn-default">
+          <button class="btn btn-default" onclick={ delete }>
             Delete
           </button>
         </div>
@@ -80,13 +80,25 @@
       that.parent.update()
     }
 
+    delete() {
+      var ok = confirm('Are you sure to delete this document?')
+      if(!ok) { return false }
+
+      let id = opts.document.id
+      let docRef = firestore.collection(opts.collection).doc(id)
+      docRef.delete().then(function(){
+        alert("Item deleted!")
+        that.close()
+      })
+    }
+
     fieldType(field) {
       return that.fields[field].valueType.replace(/Value/, '')
     }
 
     save() {
       let id = opts.document.id
-      let docRef = firestore.collection('timelines').doc(id)
+      let docRef = firestore.collection(opts.collection).doc(id)
       docRef.set(that.item)
       .then(function() {
         alert("success!")

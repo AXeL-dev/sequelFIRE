@@ -4,7 +4,7 @@
     <collection fields={ fields } documents={ documents }></collection>
     <footer></footer>
   </div>
-  <document if={ selectedDocument } fields={ fields } document={ selectedDocument }></document>
+  <document if={ selectedDocument } fields={ fields } collection={ selectedCollection } document={ selectedDocument }></document>
 
 
   <script>
