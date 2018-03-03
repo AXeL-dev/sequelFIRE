@@ -1,5 +1,5 @@
 <loggedin>
-  <div>
+  <div class="window">
     <header></header>
     <div class="window-content">
       <div class="pane-group">
