@@ -23,19 +23,12 @@
 </head>
 <body>
   <div class="window">
-    <header></header>
-    <div class="window-content">
-      <div class="pane-group">
-        <div class="pane-sm sidebar">
-          <sidebar></sidebar>
-        </div>
-        <div class="pane">
-          <main></main>
-        <div>
-      </div>
-    </div>
+    <before-login></before-login>
+    <loggedin></loggedin>
   </div>
 
+  <script src="./tags/before-login.tag" type="riot/tag"></script>
+  <script src="./tags/loggedin.tag" type="riot/tag"></script>
   <script src="./tags/collection.tag" type="riot/tag"></script>
   <script src="./tags/document.tag" type="riot/tag"></script>
   <script src="./tags/filter.tag" type="riot/tag"></script>
@@ -44,19 +37,17 @@
   <script src="./tags/main.tag" type="riot/tag"></script>
   <script src="./tags/sidebar.tag" type="riot/tag"></script>
   <script>
-    /***********************************************
-    * Riot
-    ***********************************************/
     var obs = riot.observable()
-    riot.mount('header')
-    riot.mount('sidebar')
-    riot.mount('main')
+    // riot.mount('before-login')
+    riot.mount('loggedin')
 
-    const Firestore = require('@google-cloud/firestore');
-    const firestore = new Firestore({
+
+    const Firestore = require('@google-cloud/firestore')
+    // var firestore
+    var firestore = new Firestore({
       projectId: 'timeline-stg',
-      keyFilename: './cert.json',
-    });
+      keyFilename: '/Users/tomomichi/Documents/projects/notsobad/sequelFIRE/cert.json',
+    })
   </script>
 </body>
 </html>

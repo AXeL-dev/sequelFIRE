@@ -37,7 +37,10 @@
     * Observables
     ***********************************************/
     that.on('mount', function(){
+      console.log("aaa")
+      console.log(firestore)
       firestore.getCollections().then(function(collections) {
+        console.log("bbb")
         that.collections = collections
         that.update()
       })
