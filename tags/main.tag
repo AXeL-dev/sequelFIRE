@@ -16,12 +16,13 @@
     that.documents = null
 
     that.selectedCollection = null
-    that.lastItems = []
+    that.selectedDocument = null
+
     that.perPage = 30
+    that.lastItems = []
     that.nextable = true
     that.prevable = false
 
-    that.selectedDocument = null
     that.filter = {
       field: null,
       operator: null,
@@ -40,6 +41,7 @@
 
     obs.on("filterChanged", function(filter) {
       that.filter = filter
+      that.resetPaging()
       that.executeQuery()
     })
 
@@ -107,6 +109,12 @@
     refresh() {
       that.lastItems.pop()
       that.executeQuery()
+    }
+
+    resetPaging() {
+      that.lastItems = []
+      that.nextable = true
+      that.prevable = false
     }
   </script>
 </main>

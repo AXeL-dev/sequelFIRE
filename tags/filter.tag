@@ -84,6 +84,7 @@
         value: null
       }
       that.refs.filterValue.value = ''
+      obs.trigger('filterChanged', that.filter)
     }
 
     updateFilter(e) {
