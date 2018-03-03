@@ -38,16 +38,16 @@
   <script src="./tags/sidebar.tag" type="riot/tag"></script>
   <script>
     var obs = riot.observable()
-    // riot.mount('before-login')
-    riot.mount('loggedin')
+    riot.mount('before-login')
+    // riot.mount('loggedin')
 
 
     const Firestore = require('@google-cloud/firestore')
-    // var firestore
-    var firestore = new Firestore({
-      projectId: 'timeline-stg',
-      keyFilename: '/Users/tomomichi/Documents/projects/notsobad/sequelFIRE/cert.json',
-    })
+    var firestore
+    // var firestore = new Firestore({
+    //   projectId: 'timeline-stg',
+    //   keyFilename: '/Users/tomomichi/Documents/projects/notsobad/sequelFIRE/cert.json',
+    // })
   </script>
 </body>
 </html>
