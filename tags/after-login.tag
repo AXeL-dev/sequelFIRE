@@ -16,11 +16,25 @@
 
   <script>
     var that = this
+    that.localProjects = JSON.parse(localStorage.getItem('projects')) || {}
 
-    obs.on('projectChanged', function(project){
-      if(project=='') {
+    // unmount処理
+    that.on('unmount', function() {
+      obs.off('projectChanged')
+    })
+
+    obs.on('projectChanged', function(projectId){
+      if(projectId=='') {
         riot.mount('before-login')
         that.unmount(true)
+      }else {
+        firestore = new Firestore({
+          projectId: projectId,
+          keyFilename: that.localProjects[projectId]
+        })
+        opts.projectId = projectId
+        that.unmount(true)
+        riot.mount('after-login', 'after-login', {'projectId': projectId})
       }
     })
   </script>

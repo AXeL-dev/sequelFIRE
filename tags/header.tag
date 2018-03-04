@@ -5,8 +5,9 @@
     <div class="toolbar-actions">
       <div class="form-group left">
         <select class="form-control" onchange={ changeProject }>
-          <optgroup>
+          <optgroup label="Projects">
             <option value={ projectId }>{ projectId }</option>
+            <option value={ key } each={ project, key in localProjects } if={ key != projectId }>{ key }</option>
           </optgroup>
           <optgroup label="---------">
             <option value="">New Connection</option>
@@ -43,6 +44,8 @@
     ***********************************************/
     var that = this
     that.selectedTab = 'contents'
+    that.localProjects = JSON.parse(localStorage.getItem('projects')) || {}
+    that.projectId = that.parent.opts.projectId
 
 
     /***********************************************

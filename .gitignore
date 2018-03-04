@@ -4,6 +4,7 @@
 ### Firebase ###
 .idea
 cert.json
+cert_*.json
 **/node_modules/*
 **/.firebaserc
 ### macOS ###

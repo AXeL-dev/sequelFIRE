@@ -33,6 +33,13 @@
     /***********************************************
     * Observables
     ***********************************************/
+    // unmount処理
+    that.on('unmount', function() {
+      obs.off('collectionChanged')
+      obs.off('filterChanged')
+      obs.off('documentChanged')
+    })
+
     obs.on("collectionChanged", function(collectionName) {
       that.selectedCollection = collectionName
       that.selectedDocument = null
