@@ -7,7 +7,8 @@
           <sidebar></sidebar>
         </div>
         <div class="pane">
-          <main></main>
+          <main if={ tab == 'contents' }></main>
+          <query if={ tab == 'query' }></query>
         <div>
       </div>
     </div>
@@ -16,6 +17,7 @@
 
   <script>
     var that = this
+    that.tab = 'contents'
     that.localProjects = JSON.parse(localStorage.getItem('projects')) || {}
 
     // unmount処理
@@ -36,6 +38,11 @@
         that.unmount(true)
         riot.mount('after-login', 'after-login', {'projectId': projectId})
       }
+    })
+
+    obs.on('tabChanged', function(tab){
+      that.tab = tab
+      that.update()
     })
   </script>
 </after-login>

@@ -53,6 +53,7 @@
     ***********************************************/
     changeTab(tab) {
       that.selectedTab = tab
+      obs.trigger('tabChanged', tab)
       that.update()
     }
 
