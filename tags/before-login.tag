@@ -12,21 +12,21 @@
 
   <script>
     var that = this
-    const {dialog} = require('electron').remote
 
     selectFile(e) {
       dialog.showOpenDialog({properties: ['openFile']}, function(filePaths){
-        var request = new XMLHttpRequest();
-        request.open("GET", filePaths[0], false);
+        var request = new XMLHttpRequest()
+        request.open("GET", filePaths[0], false)
         request.send(null)
-        var certJSON = JSON.parse(request.responseText);
+        var certJSON = JSON.parse(request.responseText)
 
+        projectId = certJSON['project_id']
         firestore = new Firestore({
-          projectId: certJSON['project_id'],
+          projectId: projectId,
           keyFilename: filePaths[0],
         })
-        riot.mount('loggedin')
-        that.unmount()
+        riot.mount('after-login')
+        that.unmount(true)
       })
     }
   </script>

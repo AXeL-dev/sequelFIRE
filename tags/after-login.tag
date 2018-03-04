@@ -1,4 +1,4 @@
-<loggedin>
+<after-login>
   <div class="window">
     <header></header>
     <div class="window-content">
@@ -12,4 +12,16 @@
       </div>
     </div>
   </div>
-</loggedin>
+
+
+  <script>
+    var that = this
+
+    obs.on('projectChanged', function(project){
+      if(project=='') {
+        riot.mount('before-login')
+        that.unmount(true)
+      }
+    })
+  </script>
+</after-login>
