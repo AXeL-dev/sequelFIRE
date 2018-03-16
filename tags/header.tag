@@ -19,7 +19,7 @@
           <span class="icon icon-menu"></span>
           Contents
         </button>
-        <button class="btn btn-default { active: selectedTab == 'query' }" onclick={ changeTab.bind(this, 'query') }>
+        <button disabled="disabled" class="btn btn-default { active: selectedTab == 'query' }" onclick={ changeTab.bind(this, 'query') }>
           <span class="icon icon-search"></span>
           Query
         </button>

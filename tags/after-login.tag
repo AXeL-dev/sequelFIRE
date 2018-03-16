@@ -30,13 +30,19 @@
         riot.mount('before-login')
         that.unmount(true)
       }else {
-        firestore = new Firestore({
-          projectId: projectId,
-          keyFilename: that.localProjects[projectId]
-        })
-        opts.projectId = projectId
-        that.unmount(true)
-        riot.mount('after-login', 'after-login', {'projectId': projectId})
+        try {
+          fs.statSync(that.localProjects[projectId])
+          firestore = new Firestore({
+            projectId: projectId,
+            keyFilename: that.localProjects[projectId]
+          })
+          opts.projectId = projectId
+          that.unmount(true)
+          riot.mount('after-login', 'after-login', {'projectId': projectId})
+        }catch(e) {
+          alert('Error! Check console for detail.')
+          console.log(e)
+        }
       }
     })
 

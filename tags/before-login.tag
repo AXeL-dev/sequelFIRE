@@ -43,12 +43,19 @@
     that.localProjects = JSON.parse(localStorage.getItem('projects')) || {}
 
     changeProject(projectId) {
-      firestore = new Firestore({
-        projectId: projectId,
-        keyFilename: that.localProjects[projectId]
-      })
-      riot.mount('after-login', 'after-login', {'projectId': projectId})
-      that.unmount(true)
+      try {
+        fs.statSync(that.localProjects[projectId])
+        firestore = new Firestore({
+          projectId: projectId,
+          keyFilename: that.localProjects[projectId]
+        })
+        
+        riot.mount('after-login', 'after-login', {'projectId': projectId})
+        that.unmount(true)
+      }catch(e) {
+        alert('Error! Check console for detail.')
+        console.log(e)
+      }
     }
 
     loadCertJSON(path) {
