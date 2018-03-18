@@ -54,11 +54,11 @@
       text-align: center;
     }
     .pull-right {
-      padding-right: 5px;
+      padding-right: 20px;
     }
     form {
       padding: 0 3%;
-      margin-top: 50px;
+      margin: 50px auto;
     }
   </style>
 
@@ -83,7 +83,6 @@
     obs.on('itemFieldChanged', function(changedField){
       that.item[changedField.field] = changedField.value
       that.update()
-      console.log(that.item)
     })
 
 

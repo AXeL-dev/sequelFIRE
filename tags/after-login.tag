@@ -16,10 +16,17 @@
 
 
   <script>
+    /***********************************************
+    * Settings
+    ***********************************************/
     var that = this
     that.tab = 'contents'
     that.localProjects = JSON.parse(localStorage.getItem('projects')) || {}
 
+
+    /***********************************************
+    * Observables
+    ***********************************************/
     // unmount処理
     that.on('unmount', function() {
       obs.off('projectChanged')

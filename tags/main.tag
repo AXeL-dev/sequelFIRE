@@ -43,6 +43,8 @@
     obs.on("collectionChanged", function(collectionName) {
       that.selectedCollection = collectionName
       that.selectedDocument = null
+      that.resetFilter()
+      that.resetPaging()
       that.executeQuery()
     })
 
@@ -116,6 +118,14 @@
     refresh() {
       that.lastItems.pop()
       that.executeQuery()
+    }
+
+    resetFilter() {
+      that.filter = {
+        field: null,
+        operator: null,
+        value: null
+      }
     }
 
     resetPaging() {
