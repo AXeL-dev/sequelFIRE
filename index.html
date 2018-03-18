@@ -29,6 +29,7 @@
   <script src="./tags/before-login.tag" type="riot/tag"></script>
   <script src="./tags/collection.tag" type="riot/tag"></script>
   <script src="./tags/document.tag" type="riot/tag"></script>
+  <script src="./tags/field.tag" type="riot/tag"></script>
   <script src="./tags/filter.tag" type="riot/tag"></script>
   <script src="./tags/footer.tag" type="riot/tag"></script>
   <script src="./tags/header.tag" type="riot/tag"></script>
@@ -38,11 +39,12 @@
   <script>
     const Firestore = require('@google-cloud/firestore')
     const {dialog} = require('electron').remote
+    const fs = require('fs');
+    const moment = require('moment');
+
     var firestore
     var obs = riot.observable()
     riot.mount('before-login')
-
-    const fs = require('fs');
   </script>
 </body>
 </html>

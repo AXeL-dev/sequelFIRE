@@ -34,12 +34,7 @@
           <small>({ fieldType(field) })</small>
         </label>
 
-        <virtual if={ fieldType(field)=='array' || fieldType(field)=='object' }>
-          <textarea data-field={ field } class="form-control" onchange={ updateItem }>{ JSON.stringify(item[field], null, 2) }</textarea>
-        </virtual>
-        <virtual if={ fieldType(field)!='array' && fieldType(field)!='object' }>
-          <input data-field={ field } type="text" class="form-control" value={ item[field] } onchange={ updateItem }>
-        </virtual>
+        <field item={ item } field={ field } type={ fieldType(field) }></field>
       </div>
     </form>
   </div>
