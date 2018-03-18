@@ -73,6 +73,21 @@
 
 
     /***********************************************
+    * Observables
+    ***********************************************/
+    // unmount処理
+    that.on('unmount', function() {
+      obs.off('itemFieldChanged')
+    })
+
+    obs.on('itemFieldChanged', function(changedField){
+      that.item[changedField.field] = changedField.value
+      that.update()
+      console.log(that.item)
+    })
+
+
+    /***********************************************
     * Functions
     ***********************************************/
     close() {
@@ -101,10 +116,11 @@
       let docRef = firestore.collection(opts.collection).doc(id)
       docRef.update(that.item)
       .then(function() {
-        alert("success!")
+        alert("Success!")
       })
       .catch(function(error) {
-        alert(error)
+        alert("Error! Check the console for detail.")
+        console.log(error)
       })
     }
 
