@@ -1,6 +1,6 @@
 <main>
   <div if={ !selectedDocument }>
-    <filter fields={ fields }></filter>
+    <!--<filter fields={ fields }></filter>-->
     <collection fields={ fields } documents={ documents }></collection>
     <footer page={ lastItems.length } perPage={ perPage } nextable={ nextable } prevable={ prevable }></footer>
   </div>

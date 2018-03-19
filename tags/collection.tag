@@ -23,7 +23,7 @@
   <style>
     /* table */
     .table-striped {
-      padding-top: 45px;
+      /* padding-top: 45px; */
       margin-bottom: 35px;
     }
     .table-striped tbody tr:hover {
